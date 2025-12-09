@@ -1,0 +1,112 @@
+{
+  "name": "Мини-интеграция с Telegram",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "76557797-1791-46e7-97cf-abd3dbfc8596",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "/path/to/your/file.txt"
+      },
+      "id": "be65a71c-633d-49a0-8cf7-13b8d4b8b04d",
+      "name": "Read Text File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "data",
+        "options": {}
+      },
+      "id": "16ed32c5-26b4-49a2-ba00-28b4cc26a425",
+      "name": "Convert to Text",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "={{ $json.data }}",
+        "additionalFields": {}
+      },
+      "id": "8bbe8290-dd66-4908-8776-bd2b2f73fc52",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -64
+      ],
+      "webhookId": "3e5f552d-4ec3-4734-aad9-a8216e7963d9",
+      "credentials": {
+        "telegramApi": {
+          "id": null,
+          "name": "telegramBot"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Read Text File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Text File": {
+      "main": [
+        [
+          {
+            "node": "Convert to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Text": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2e1dfccb-123c-4d45-951c-5b4b2af0da36",
+  "meta": {
+    "instanceId": "9ce263ea74ac56142ad0b445edd4996f0dce195bb2058608aecc86f0fd24906f"
+  },
+  "id": "6LnFBusYNEpPzRq4",
+  "tags": []
+}
